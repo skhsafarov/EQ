@@ -1,0 +1,20 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "EQ_Shared";
+
+package queue;
+
+service Queue {
+  rpc Enqueue (google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc Dequeue (google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc GetQueue (google.protobuf.Empty) returns (Numbers);
+}
+
+message Numbers {
+	repeated Number List = 1;
+}
+
+message Number {
+	optional int32 Value = 1;
+}

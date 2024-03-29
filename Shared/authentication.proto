@@ -1,0 +1,24 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "EQ_Shared";
+
+package authentication;
+
+service Authentication {
+  rpc GetCode (Phone) returns (google.protobuf.Empty);
+  rpc Validate (Code) returns (AccessToken);
+}
+
+message Phone{
+	string Value = 1;
+}
+
+message Code{
+	string Phone = 1;
+	string Value = 2;
+}
+
+message AccessToken{
+	string Token = 1;
+}

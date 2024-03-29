@@ -1,0 +1,29 @@
+﻿@page "/signin"
+
+@inject Authentication.AuthenticationClient authClient
+@inject AuthenticationStateProvider ASP
+@inject NavigationManager NM
+@inject Blazored.LocalStorage.ILocalStorageService LS
+
+<MudInput Label="input" @bind-Value="Str" />
+<MudButton OnClick="GetCode">Get Code</MudButton>
+<MudButton OnClick="Validate">Sign In</MudButton>
+
+
+
+@code {
+    public string Str { get; set; }
+    public Code Mess { get; set; }
+
+    public async Task GetCode()
+    {
+        Mess = new Code() { Phone = Str };
+        await authClient.GetCodeAsync(new Phone { Value = Str });
+    }
+    public async Task Validate()
+    {
+        Mess.Value = Str;
+        var res = await authClient.ValidateAsync(Mess);
+        await (ASP as CustomAuthStateProvider).MarkUserAsAuthenticated(res.Token);
+    }
+}
